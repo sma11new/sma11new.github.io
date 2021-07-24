@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>测试</title>
+      <link href="post/202107242336.html"/>
+      <url>post/202107242336.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><p>sdadsa</p><h3 id="1-1-湿答答"><a href="#1-1-湿答答" class="headerlink" title="1.1 湿答答"></a>1.1 湿答答</h3><h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><p>撒大事</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 个人博客（第一层级） </category>
+          
+          <category> Hexo博客（第二层级） </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+            <tag> 博客 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="post/202102111706.html"/>
       <url>post/202102111706.html</url>
