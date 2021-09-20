@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>【工具篇】ip2domain - 批量ip反查域名及备案信息工具</title>
+      <link href="post/202109202133.html"/>
+      <url>post/202109202133.html</url>
+      
+        <content type="html"><![CDATA[<h3 id="🎯简述"><a href="#🎯简述" class="headerlink" title="🎯简述"></a>🎯简述</h3><p>ip2domain是一款自写的批量ip反查域名及备案信息工具，在批量挖SRC时，通常会用较新的漏洞POC批量跑fofa或其他空间测绘的相关资产ip，该工具可用于对跑到的ip批量<strong>反查域名</strong>及<strong>备案信息</strong>，快速确定ip所属企业，方便提交漏洞。</p><h3 id="📢说明"><a href="#📢说明" class="headerlink" title="📢说明"></a>📢说明</h3><p>该工具是在之前的webEye上改进而来，由于webEye是检测IP端口站点存活后在页面匹配ICP号查询备案信息，准确率较低，因此改进为调用接口查询。</p><p><strong>功能特点如下：</strong></p><ol><li> 快速批量查询备案信息；</li><li> 结果导出至Excel表格；</li><li> 使用多线程加快速度；</li></ol><p>代码中对域名做提取主域和已查询标记，同一域名仅查询并输出一次。</p><p><strong>注意：</strong></p><p>当<strong>反查域名</strong>列出现”– Connect Failed –”时表示<strong>反查域名</strong>接口请求出错</p><p>当<strong>单位名称</strong>列出现”– Connect Failed –”时表示<strong>备案信息</strong>接口请求出错</p><p>出现以上问题极有可能是请求频率过高，但由于是调用api而不是模拟浏览器请求，因此出现的概率极小。</p><h3 id="🚩使用"><a href="#🚩使用" class="headerlink" title="🚩使用"></a>🚩使用</h3><p>安装依赖：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure><p>使用：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">usage: ip2domain.py [-h] -f  [-t] [-T] [-o]</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help      show this help message and exit</span><br><span class="line">  -f, --file      Target IP file</span><br><span class="line">  -t, --thread    Number of thread (default 32)</span><br><span class="line">  -T, --Timeout   request timeout (default 3)</span><br><span class="line">  -o, --output    output file (default .&#x2F;output&#x2F;&#123;fileName&#125;_title_&#123;date&#125;.csv)</span><br></pre></td></tr></table></figure><p>将要查询的ip放在txt文件内一行一个，以下几种格式均可：</p><ul><li>  单纯ip：127.0.0.1</li><li>  带端口：127.0.0.1:8080</li><li>  带http、https协议：<a href="https://127.0.0.1/">https://127.0.0.1</a></li><li>  带协议及端口：<a href="https://127.0.0.1:8080/">https://127.0.0.1:8080</a></li></ul><p>可处理多种格式数据，适应各种工具的导出结果。</p><p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image-20210920091939132.png" alt="image-20210920091939132"></p><p><code>python ip2domain.py -f [file]</code> 指定文件即可，其余参数为可选：</p><p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image_2021-09-18_16-41-34.png" alt="image_2021-09-18_16-41-34"></p><p>400多ip用时8秒，当前线程32，结果文件：</p><p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image_2021-09-18_16-39-54.png" alt="image_2021-09-18_16-39-54"></p><h3 id="🎈地址"><a href="#🎈地址" class="headerlink" title="🎈地址"></a>🎈地址</h3><p>Github地址：<a href="https://github.com/Sma11New/ip2domain">https://github.com/Sma11New/ip2domain</a></p><p><strong>欢迎使用，我愿称之为最强</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 工具篇 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ip反查域名 </tag>
+            
+            <tag> ip查备案信息 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【工具篇】HunterExport - QAX全球鹰数据批量查询导出工具</title>
+      <link href="post/202109162133.html"/>
+      <url>post/202109162133.html</url>
+      
+        <content type="html"><![CDATA[<h3 id="📞简述"><a href="#📞简述" class="headerlink" title="📞简述"></a>📞简述</h3><p>由于全球鹰Hunter目前仅支持每天导出1000条数据，因此写了该工具调用查询API，可无限制导出查询结果至Excel表格。</p><p>目前全球鹰仅对公司内部开放，因此全程需要<strong>接入公司内网</strong>。接入内网后，登录安服武器库全球鹰Hunter获取用户名（邮箱）和密钥（Key），写入default.conf配置文件，运行 HunterEcport.py 输入查询指令即可获取数据，并输出至文件。</p><h3 id="✨更新"><a href="#✨更新" class="headerlink" title="✨更新"></a>✨更新</h3><p><strong>当前版本为第二版，更新情况如下：</strong></p><ol><li> 修复全球鹰加入请求编码后第一版无法使用问题</li><li> 支持文件批量查询</li><li> 加入日志系统</li><li> 增加配置文件项，解决请求出错问题</li><li> 修复bug，优化程序，完善功能</li></ol><h3 id="🪓配置文件"><a href="#🪓配置文件" class="headerlink" title="🪓配置文件"></a>🪓配置文件</h3><ul><li>  mail = <a href="mailto:&#x65;&#x78;&#97;&#x6d;&#112;&#108;&#101;&#64;&#x71;&#105;&#97;&#x6e;&#x78;&#105;&#110;&#46;&#x63;&#111;&#x6d;">&#x65;&#x78;&#97;&#x6d;&#112;&#108;&#101;&#64;&#x71;&#105;&#97;&#x6e;&#x78;&#105;&#110;&#46;&#x63;&#111;&#x6d;</a>  - 邮箱</li><li>  key = abcdefgh12345678987654321hgfedcba - key</li><li>  countMax  - 导出数量封顶限制，越大越慢，适量增减，单位：条</li><li>  searchMonth  - 查询时间范围，12、24恰当，越长越容易出现死资产，单位：月</li><li>  timeSleep - 请求时延，越小越快，越容易请求错误，0.5s、1s恰当，适量增减，单位：秒</li><li>  isWeb - 是否仅查询web资产，1是2否</li></ul><p>按需修改即可。</p><h3 id="🚩使用"><a href="#🚩使用" class="headerlink" title="🚩使用"></a>🚩使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Usage: python3 HunterExport.py</span><br><span class="line">    Command&gt; app&#x3D;&quot;***&quot;      (单次查询)</span><br><span class="line">    Command&gt; file filePath  (批量查询)</span><br><span class="line">    Command&gt; hlep           (语法查询)    </span><br></pre></td></tr></table></figure><p>单个查询  <code>app=&quot;***&quot;</code>  （当前timeSleep为0，会出现请求频率太高）：</p><p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image_2021-09-16_14-00-35.png" alt="image_2021-09-16_14-00-35"></p><p>文件批量查询  <code>file filePath</code> （修改配置问价timeSleep为0.5，请求出错问题解决）：</p><p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image_2021-09-16_14-09-08.png" alt="image_2021-09-16_14-09-08"></p><p>查询结果及debug.log日志文件：</p><p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image-20210916143427590.png" alt="image-20210916143427590"></p><p>其中日志记录有三个关键字：</p><ol><li> SCMD：search command，记录查询过的命令</li><li> INFO：information，记录程序运行中产生的信息</li><li> ERROR：error，记录程序的报错信息</li></ol><p>可根据需求将日志拆分，保存SCMD记录，即可查看所有历史查询记录。</p><h3 id="🔑地址"><a href="#🔑地址" class="headerlink" title="🔑地址"></a>🔑地址</h3><p>Github地址：<a href="https://github.com/Sma11New/HunterExport">https://github.com/Sma11New/HunterExport</a></p><p><strong>欢迎使用</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 工具篇 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 资产测绘 </tag>
+            
+            <tag> 全球鹰数据导出 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>解决Python Class中进程池Pool对象无法作为类属性进行传递问题</title>
       <link href="post/20210152133.html"/>
       <url>post/20210152133.html</url>
