@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【工具篇】EgressIpQuery - 出口IP查询工具 | Sma11New</title><meta name="keywords" content="信息查询,出口IP查询"><meta name="author" content="Sma11New"><meta name="copyright" content="Sma11New"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="👁‍🗨EgressIpQuery - 主机出口IP查询工具可在攻击前或配置全局代理后使用该工具检测出口IP，避免在攻击中因代理未生效而被溯源的问题。 Github：https:&#x2F;&#x2F;github.com&#x2F;Sma11New&#x2F;EgressIpQuery 🔨工具介绍🍜工具特点   图形化方便操作和展示   支持自定义查询接口、代理   同时查询出口IP归属   没有第三方依赖  🍝java版本项">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【工具篇】EgressIpQuery - 出口IP查询工具">
+<meta property="og:url" content="https://blog.sma11new.com/post/202204292133.html">
+<meta property="og:site_name" content="Sma11New">
+<meta property="og:description" content="👁‍🗨EgressIpQuery - 主机出口IP查询工具可在攻击前或配置全局代理后使用该工具检测出口IP，避免在攻击中因代理未生效而被溯源的问题。 Github：https:&#x2F;&#x2F;github.com&#x2F;Sma11New&#x2F;EgressIpQuery 🔨工具介绍🍜工具特点   图形化方便操作和展示   支持自定义查询接口、代理   同时查询出口IP归属   没有第三方依赖  🍝java版本项">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/164969006-db6a3168-f6ae-48fb-9a72-a72b9073ad72.png">
+<meta property="article:published_time" content="2022-04-29T13:33:40.000Z">
+<meta property="article:modified_time" content="2022-04-29T13:37:40.000Z">
+<meta property="article:author" content="Sma11New">
+<meta property="article:tag" content="信息查询">
+<meta property="article:tag" content="出口IP查询">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/164969006-db6a3168-f6ae-48fb-9a72-a72b9073ad72.png"><link rel="shortcut icon" href="/img/XiaoXin.png"><link rel="canonical" href="https://blog.sma11new.com/post/202204292133"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2022-04-29 21:37:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/XiaoXin.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/164969006-db6a3168-f6ae-48fb-9a72-a72b9073ad72.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sma11New</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【工具篇】EgressIpQuery - 出口IP查询工具</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-29T13:33:40.000Z" title="发表于 2022-04-29 21:33:40">2022-04-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-29T13:37:40.000Z" title="更新于 2022-04-29 21:37:40">2022-04-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7%E7%AF%87/">工具篇</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="👁‍🗨EgressIpQuery-主机出口IP查询工具"><a href="#👁‍🗨EgressIpQuery-主机出口IP查询工具" class="headerlink" title="👁‍🗨EgressIpQuery - 主机出口IP查询工具"></a>👁‍🗨EgressIpQuery - 主机出口IP查询工具</h1><p>可在攻击前或配置全局代理后使用该工具检测出口IP，避免在攻击中因代理未生效而被溯源的问题。</p>
+<p>Github：<a target="_blank" rel="noopener" href="https://github.com/Sma11New/EgressIpQuery">https://github.com/Sma11New/EgressIpQuery</a></p>
+<h2 id="🔨工具介绍"><a href="#🔨工具介绍" class="headerlink" title="🔨工具介绍"></a>🔨工具介绍</h2><h3 id="🍜工具特点"><a href="#🍜工具特点" class="headerlink" title="🍜工具特点"></a>🍜工具特点</h3><ul>
+<li>  图形化方便操作和展示</li>
+<li>  支持自定义查询接口、代理</li>
+<li>  同时查询出口IP归属</li>
+<li>  没有第三方依赖</li>
+</ul>
+<h3 id="🍝java版本"><a href="#🍝java版本" class="headerlink" title="🍝java版本"></a>🍝java版本</h3><p>项目使用jdk8编写</p>
+<h3 id="🍻使用说明"><a href="#🍻使用说明" class="headerlink" title="🍻使用说明"></a>🍻使用说明</h3><p>直接查询，使用的工具自带接口</p>
+<p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/164969006-db6a3168-f6ae-48fb-9a72-a72b9073ad72.png" alt="image"></p>
+<p>也可以自定义查询接口，当主动修改接口后，会在同目录下生成EIQconfig.list接口配置文件，恢复默认接口后，会自动删除该配置文件。</p>
+<h3 id="⭕遗留问题"><a href="#⭕遗留问题" class="headerlink" title="⭕遗留问题"></a>⭕遗留问题</h3><p>配置代理后，再次点开配置界面，代理类型会重置为socks，如果是http则需要再次选择。</p>
+<h2 id="🐎代码分析"><a href="#🐎代码分析" class="headerlink" title="🐎代码分析"></a>🐎代码分析</h2><p>工具实现非常简单，我甚至能想到用Python怎样在不到100行写出一个又健壮又好用的同样功能的工具，不过这是第一个较为完整的Java工具项目，功能简单，主要用于熟悉Java项目流程，收获不小。</p>
+<h3 id="🏭项目结构"><a href="#🏭项目结构" class="headerlink" title="🏭项目结构"></a>🏭项目结构</h3><p>开始使用maven管理项目，但是配置和打包重复出现问题，而且功能较简单，索性不用了，下个项目再好好研究</p>
+<p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image_2022-05-18_00-18-00.jpg" alt="image_2022-05-18_00-18-00"></p>
+<p>弃用maven后结构如下：</p>
+<ul>
+<li>  query包下放功能逻辑相关代码</li>
+<li>  ui包下放界面展示相关代码</li>
+<li>  utils包下放工具类</li>
+</ul>
+<p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image-20220518000356290.png" alt="image-20220518000356290"></p>
+<p>关键查询类Query如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> query;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> utils.HttpUtil;</span><br><span class="line"><span class="keyword">import</span> utils.RegUtil;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Query</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询出口IP</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> interUrl 查询接口地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> ip</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">doQueryIp</span><span class="params">(String interUrl)</span> </span>&#123;</span><br><span class="line">        String egressIp = <span class="keyword">null</span>;</span><br><span class="line">        String reqResult = HttpUtil.doGet(interUrl, Proxy.getProxy.schame(), Proxy.getProxy.ip(), Proxy.getProxy.port());</span><br><span class="line">        <span class="keyword">if</span> (reqResult != <span class="keyword">null</span>) &#123;</span><br><span class="line">            egressIp = RegUtil.findIp(reqResult);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> egressIp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询归属</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ip 待查询ip</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> addr</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">doQueryAddr</span><span class="params">(String ip)</span> </span>&#123;</span><br><span class="line">        String addr = <span class="keyword">null</span>;</span><br><span class="line">        String url = <span class="string">&quot;http://whois.pconline.com.cn/ipJson.jsp?ip=&quot;</span> + ip + <span class="string">&quot;&amp;json=true&quot;</span>;</span><br><span class="line">        String reqResult = HttpUtil.doGet(url, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (reqResult != <span class="keyword">null</span>) &#123;</span><br><span class="line">            addr = RegUtil.findAddr(reqResult);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> addr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>doQueryIp方法调用HttpUtil工具类中的doGet方法发起get请求，再对结果做正则匹配，获取出口IP</p>
+<p>doQueryAddr方法同样调用HttpUtil工具类中的doGet方法发起get请求，对结果匹配归属地址，获取归属</p>
+<h3 id="💫自定义接口Dialog"><a href="#💫自定义接口Dialog" class="headerlink" title="💫自定义接口Dialog"></a>💫自定义接口Dialog</h3><h4 id="1-巧妙地设计"><a href="#1-巧妙地设计" class="headerlink" title="1.巧妙地设计"></a>1.巧妙地设计</h4><p>起初打算整个工具是不带任何配置文件和生成文件的，但是发现使用中要想自定义接口就必须生成配置文件，因此用了这个巧妙的设计：</p>
+<p>初始工具不带配置文件，自定义接口后，如果接口与默认接口不相同，则创建一个配置文件写入修改后的接口，当接口与默认接口相同时又会删除配置文件，而且窗口加入了<strong>恢复默认</strong>按钮，方便。因此查询逻辑是系统调用查询接口时会先优先判断是否存在配置文件，存在表示配置文件已经修改，则读取文件中的接口，不存在就是系统默认接口。</p>
+<p>纯纯的<strong>《花里胡哨》</strong></p>
+<p><strong>相关代码：</strong></p>
+<p>使用静态代码块初始化，来实现初始化接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化接口列表</span></span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        File interFile = <span class="keyword">new</span> File(interConFile);</span><br><span class="line">        <span class="comment">// 存在自定义接口配置文件，表示用户修改并自定义接口，则加载dialog时读取文件中的接口</span></span><br><span class="line">        <span class="comment">// 否则读取默认接口</span></span><br><span class="line">        <span class="keyword">if</span> (interFile.exists()) &#123;</span><br><span class="line">            interList = FileUtil.readFile(interConFile);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            interList = defaultInter;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>query.Inter#setInterList</code> set时判断是否相同，并执行下一步操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * set接口，并判断是否与默认接口相同，相同删除配置文件，不同写入配置文件</span></span><br><span class="line"><span class="comment"> * 接收String</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> interList 接口List</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setInterList</span><span class="params">(String interList)</span> </span>&#123;</span><br><span class="line">    Inter.interList = TypeTransUtil.stringToList(interList);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!Inter.interList.equals(Inter.defaultInter)) &#123;</span><br><span class="line">        FileUtil.writeFile(interList, interConFile);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        FileUtil.deleteFile(interConFile);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-合法输入校验"><a href="#2-合法输入校验" class="headerlink" title="2.合法输入校验"></a>2.合法输入校验</h4><p>正则校验输入的接口是否是合法url，同样在配置代理中也校验IP端口是否合法。</p>
+<p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image-20220518001338519.png" alt="image-20220518001338519"></p>
+<h4 id="3-去重"><a href="#3-去重" class="headerlink" title="3.去重"></a>3.去重</h4><p>对接口去重处理。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Sma11New</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blog.sma11new.com/post/202204292133.html">https://blog.sma11new.com/post/202204292133.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.sma11new.com" target="_blank">Sma11New</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2/">信息查询</a><a class="post-meta__tags" href="/tags/%E5%87%BA%E5%8F%A3IP%E6%9F%A5%E8%AF%A2/">出口IP查询</a></div><div class="post_share"><div class="social-share" data-image="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/164969006-db6a3168-f6ae-48fb-9a72-a72b9073ad72.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/post/20220182133.html"><img class="next-cover" src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image-20220106215432511.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【Java学习之路】SE3 - static修饰符</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/XiaoXin.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Sma11New</div><div class="author-info__description">You can't have national security without cybersecurity</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sma11New"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sma11New" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_43968080" target="_blank" title="CSDN"><i class="fab fa-creative-commons"></i></a><a class="social-icon" href="mailto:Sma11New@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my new blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%91%81%E2%80%8D%F0%9F%97%A8EgressIpQuery-%E4%B8%BB%E6%9C%BA%E5%87%BA%E5%8F%A3IP%E6%9F%A5%E8%AF%A2%E5%B7%A5%E5%85%B7"><span class="toc-text">👁‍🗨EgressIpQuery - 主机出口IP查询工具</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%94%A8%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D"><span class="toc-text">🔨工具介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8D%9C%E5%B7%A5%E5%85%B7%E7%89%B9%E7%82%B9"><span class="toc-text">🍜工具特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8D%9Djava%E7%89%88%E6%9C%AC"><span class="toc-text">🍝java版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8D%BB%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E"><span class="toc-text">🍻使用说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%AD%95%E9%81%97%E7%95%99%E9%97%AE%E9%A2%98"><span class="toc-text">⭕遗留问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%8E%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-text">🐎代码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8F%AD%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-text">🏭项目结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%92%AB%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A5%E5%8F%A3Dialog"><span class="toc-text">💫自定义接口Dialog</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%B7%A7%E5%A6%99%E5%9C%B0%E8%AE%BE%E8%AE%A1"><span class="toc-text">1.巧妙地设计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%90%88%E6%B3%95%E8%BE%93%E5%85%A5%E6%A0%A1%E9%AA%8C"><span class="toc-text">2.合法输入校验</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%8E%BB%E9%87%8D"><span class="toc-text">3.去重</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/202204292133.html" title="【工具篇】EgressIpQuery - 出口IP查询工具"><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/164969006-db6a3168-f6ae-48fb-9a72-a72b9073ad72.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【工具篇】EgressIpQuery - 出口IP查询工具"/></a><div class="content"><a class="title" href="/post/202204292133.html" title="【工具篇】EgressIpQuery - 出口IP查询工具">【工具篇】EgressIpQuery - 出口IP查询工具</a><time datetime="2022-04-29T13:33:40.000Z" title="发表于 2022-04-29 21:33:40">2022-04-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20220182133.html" title="【Java学习之路】SE3 - static修饰符"><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image-20220106215432511.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Java学习之路】SE3 - static修饰符"/></a><div class="content"><a class="title" href="/post/20220182133.html" title="【Java学习之路】SE3 - static修饰符">【Java学习之路】SE3 - static修饰符</a><time datetime="2022-01-08T13:33:40.000Z" title="发表于 2022-01-08 21:33:40">2022-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20211162133.html" title="【Java学习之路】SE2 - 面向对象基础知识"><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image-20220102233225918.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Java学习之路】SE2 - 面向对象基础知识"/></a><div class="content"><a class="title" href="/post/20211162133.html" title="【Java学习之路】SE2 - 面向对象基础知识">【Java学习之路】SE2 - 面向对象基础知识</a><time datetime="2021-11-06T13:33:40.000Z" title="发表于 2021-11-06 21:33:40">2021-11-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/202110252133.html" title="【Java学习之路】SE1 - 基本概念及语法"><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202110250054215.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Java学习之路】SE1 - 基本概念及语法"/></a><div class="content"><a class="title" href="/post/202110252133.html" title="【Java学习之路】SE1 - 基本概念及语法">【Java学习之路】SE1 - 基本概念及语法</a><time datetime="2021-10-25T13:33:40.000Z" title="发表于 2021-10-25 21:33:40">2021-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/202110102133.html" title="【工具篇】webEye - web资产探测工具"><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image_2021-10-10_14-38-36.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【工具篇】webEye - web资产探测工具"/></a><div class="content"><a class="title" href="/post/202110102133.html" title="【工具篇】webEye - web资产探测工具">【工具篇】webEye - web资产探测工具</a><time datetime="2021-10-10T13:33:40.000Z" title="发表于 2021-10-10 21:33:40">2021-10-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Sma11New</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
