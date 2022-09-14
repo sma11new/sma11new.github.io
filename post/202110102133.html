@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【工具篇】webEye - web资产探测工具 | Sma11New</title><meta name="keywords" content="web资产探测"><meta name="author" content="Sma11New"><meta name="copyright" content="Sma11New"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="webEye工具专项于ip对应web资产探测，可用于红队信息搜集、蓝队内网web资产探测梳理。 🎁更新日志2021-10-10 (v2.1)：   因效果不佳，删除ICP备案查询功能   优化数据输入输出，加入解析多种ip和port格式，增加支持-p&#x2F;–ip参数直接输入目标ip&#x2F;ip段   修改写入文件方式为分段式，减少资源占用   加入任务进度显示，更加直观   修复已知问题  2021-08">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【工具篇】webEye - web资产探测工具 | Sma11New</title><meta name="keywords" content="web资产探测"><meta name="author" content="Sma11New"><meta name="copyright" content="Sma11New"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="webEye工具专项于ip对应web资产探测，可用于红队信息搜集、蓝队内网web资产探测梳理。 🎁更新日志2021-10-10 (v2.1)： 因效果不佳，删除ICP备案查询功能 优化数据输入输出，加入解析多种ip和port格式，增加支持-p&#x2F;–ip参数直接输入目标ip&#x2F;ip段 修改写入文件方式为分段式，减少资源占用 加入任务进度显示，更加直观 修复已知问题  2021-08">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【工具篇】webEye - web资产探测工具">
 <meta property="og:url" content="https://blog.sma11new.com/post/202110102133.html">
 <meta property="og:site_name" content="Sma11New">
-<meta property="og:description" content="webEye工具专项于ip对应web资产探测，可用于红队信息搜集、蓝队内网web资产探测梳理。 🎁更新日志2021-10-10 (v2.1)：   因效果不佳，删除ICP备案查询功能   优化数据输入输出，加入解析多种ip和port格式，增加支持-p&#x2F;–ip参数直接输入目标ip&#x2F;ip段   修改写入文件方式为分段式，减少资源占用   加入任务进度显示，更加直观   修复已知问题  2021-08">
+<meta property="og:description" content="webEye工具专项于ip对应web资产探测，可用于红队信息搜集、蓝队内网web资产探测梳理。 🎁更新日志2021-10-10 (v2.1)： 因效果不佳，删除ICP备案查询功能 优化数据输入输出，加入解析多种ip和port格式，增加支持-p&#x2F;–ip参数直接输入目标ip&#x2F;ip段 修改写入文件方式为分段式，减少资源占用 加入任务进度显示，更加直观 修复已知问题  2021-08">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image_2021-10-10_14-38-36.png">
 <meta property="article:published_time" content="2021-10-10T13:33:40.000Z">
@@ -139,60 +139,66 @@
           document.documentElement.classList.remove('hide-aside')
         }
       }
-    })(window)</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/XiaoXin.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image_2021-10-10_14-38-36.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sma11New</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【工具篇】webEye - web资产探测工具</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-10-10T13:33:40.000Z" title="发表于 2021-10-10 21:33:40">2021-10-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-10-10T13:37:40.000Z" title="更新于 2021-10-10 21:37:40">2021-10-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Python/">Python</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7%E7%AF%87/">工具篇</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><strong>webEye工具专项于ip对应web资产探测，可用于红队信息搜集、蓝队内网web资产探测梳理。</strong></p>
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/XiaoXin.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image_2021-10-10_14-38-36.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sma11New</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【工具篇】webEye - web资产探测工具</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-10-10T13:33:40.000Z" title="发表于 2021-10-10 21:33:40">2021-10-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-10-10T13:37:40.000Z" title="更新于 2021-10-10 21:37:40">2021-10-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Python/">Python</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7%E7%AF%87/">工具篇</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">773</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><strong>webEye工具专项于ip对应web资产探测，可用于红队信息搜集、蓝队内网web资产探测梳理。</strong></p>
 <h2 id="🎁更新日志"><a href="#🎁更新日志" class="headerlink" title="🎁更新日志"></a>🎁更新日志</h2><h4 id="2021-10-10-v2-1-："><a href="#2021-10-10-v2-1-：" class="headerlink" title="2021-10-10 (v2.1)："></a><strong>2021-10-10 <code>(v2.1)</code>：</strong></h4><ul>
-<li>  因效果不佳，删除ICP备案查询功能</li>
-<li>  优化数据输入输出，加入解析多种ip和port格式，增加支持-p/–ip参数直接输入目标ip/ip段</li>
-<li>  修改写入文件方式为分段式，减少资源占用</li>
-<li>  加入任务进度显示，更加直观</li>
-<li>  修复已知问题</li>
+<li>因效果不佳，删除ICP备案查询功能</li>
+<li>优化数据输入输出，加入解析多种ip和port格式，增加支持-p&#x2F;–ip参数直接输入目标ip&#x2F;ip段</li>
+<li>修改写入文件方式为分段式，减少资源占用</li>
+<li>加入任务进度显示，更加直观</li>
+<li>修复已知问题</li>
 </ul>
 <h4 id="2021-08-08-v2-0-："><a href="#2021-08-08-v2-0-：" class="headerlink" title="2021-08-08 (v2.0)："></a><strong>2021-08-08 <code>(v2.0)</code>：</strong></h4><ul>
-<li>  修改项目名为webEye</li>
-<li>  加入ICP备案查询</li>
+<li>修改项目名为webEye</li>
+<li>加入ICP备案查询</li>
 </ul>
 <h4 id="2021-02-13-v1-0-："><a href="#2021-02-13-v1-0-：" class="headerlink" title="2021-02-13 (v1.0)："></a><strong>2021-02-13 <code>(v1.0)</code>：</strong></h4><ul>
-<li>  创建项目GetWebSiteTitle</li>
-<li>  可读取文件ip列表进行简单的web资产探测</li>
+<li>创建项目GetWebSiteTitle</li>
+<li>可读取文件ip列表进行简单的web资产探测</li>
 </ul>
 <h2 id="🏓功能简述"><a href="#🏓功能简述" class="headerlink" title="🏓功能简述"></a>🏓功能简述</h2><p><strong>webEye工具专项于ip对应web资产探测，可用于红队信息搜集、蓝队内网web资产探测梳理，目前功能及要点：</strong></p>
 <ol>
-<li> 批量IP的多个端口上Web<strong>存活检测</strong></li>
-<li> 获取存活web<strong>站点标题</strong></li>
-<li> 获取指定多个响应码的web资产</li>
-<li> 使用<strong>线程池</strong>增加请求速度</li>
-<li> 查询结果输出至<strong>Excel表格</strong></li>
+<li>批量IP的多个端口上Web<strong>存活检测</strong></li>
+<li>获取存活web<strong>站点标题</strong></li>
+<li>获取指定多个响应码的web资产</li>
+<li>使用<strong>线程池</strong>增加请求速度</li>
+<li>查询结果输出至<strong>Excel表格</strong></li>
 </ol>
 <p><strong>开发环境</strong>：Python 3.7、Win10</p>
 <h2 id="🍉安装-amp-amp-说明"><a href="#🍉安装-amp-amp-说明" class="headerlink" title="🍉安装&amp;&amp;说明"></a>🍉安装&amp;&amp;说明</h2><h4 id="安装工具"><a href="#安装工具" class="headerlink" title="安装工具"></a>安装工具</h4><p>下载项目</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;Sma11New&#x2F;webEye.git</span><br></pre></td></tr></table></figure>
+
 <p>安装依赖</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+
 <h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><p>webEye有以下参数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">webEye.py [-h] [-i IP] [-f FILE] [-p PORT] [-t THREAD] [-T TIMEOUT] [-o OUTPUT]</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help                     show this help message and exit</span><br><span class="line">  -i IP, --ip IP                 Target ip, eg:127.0.0.1&#x2F;24  【目标ip】</span><br><span class="line">  -f FILE, --file FILE           Target ip list file   【ip列表文件】</span><br><span class="line">  -p PORT, --port PORT           request port (default 80,81,88,443,4430,8080,8081,8181,8443,9000) 【目标端口】</span><br><span class="line">  -t THREAD, --thread THREAD     Number of thread (default 512) 【线程，默认512】</span><br><span class="line">  -T TIMEOUT, --Timeout TIMEOUT  Request timeout (default 3) 【请求超时，默认3】</span><br><span class="line">  -o OUTPUT, --output OUTPUT     Output file (default .&#x2F;output&#x2F;webEye_title_&#123;date&#125;.csv)</span><br></pre></td></tr></table></figure>
+
 <p><strong>webEye支持的ip、port参数格式：</strong></p>
-<p>-i/–ip 参数支持的格式：</p>
+<p>-i&#x2F;–ip 参数支持的格式：</p>
 <ul>
-<li>  192.168.1.1/24</li>
-<li>  192.168.1.1-20</li>
-<li>  192.168.1.*</li>
-<li>  192.168.1-6.*</li>
+<li>192.168.1.1&#x2F;24</li>
+<li>192.168.1.1-20</li>
+<li>192.168.1.*</li>
+<li>192.168.1-6.*</li>
 </ul>
-<p>-p/–port 参数支持的格式：</p>
+<p>-p&#x2F;–port 参数支持的格式：</p>
 <ul>
-<li>  80,443,8080</li>
-<li>  1-8080</li>
+<li>80,443,8080</li>
+<li>1-8080</li>
 </ul>
 <p>可使用”,”隔开一次指定多个，如：<code>-i 192.168.1.1-20,192.168.1-5.*,10.0.0.1/24</code></p>
-<h2 id="🍭使用示例"><a href="#🍭使用示例" class="headerlink" title="🍭使用示例"></a>🍭使用示例</h2><p>可在命令行中用-i/–ip指定目标ip，支持多种格式和多个参数，使用英文逗号隔开，-p/–port同理</p>
+<h2 id="🍭使用示例"><a href="#🍭使用示例" class="headerlink" title="🍭使用示例"></a>🍭使用示例</h2><p>可在命令行中用-i&#x2F;–ip指定目标ip，支持多种格式和多个参数，使用英文逗号隔开，-p&#x2F;–port同理</p>
 <p>也可将目标ip信息写入文件，一行一个目标ip，支持多种格式，可直接将带协议、端口的地址写入，省去师傅们删掉协议、端口的操作，弟弟在程序里写好了。如（127.0.0.1 或 127.0.0.1:8080 或 <a href="http://127.0.0.1:8080），ip文件实例：">http://127.0.0.1:8080），ip文件实例：</a></p>
 <p>ipList.txt：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.1&#x2F;24</span><br><span class="line">192.168.2.1-200</span><br><span class="line">192.168.1-5.*</span><br></pre></td></tr></table></figure>
+
 <p>参数示例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 webEye.py -i 192.168.1.1&#x2F;16</span><br><span class="line">python3 webEye.py -i 192.168.1.1-20,192.168.1-5.* -p 80,8080,100-999</span><br><span class="line">python3 webEye.py -f ipList.txt -p 1-65535</span><br></pre></td></tr></table></figure>
+
 <p>探测演示：</p>
 <p>指定目标ip文件进行web资产探测</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python .\webEye.py -f E:\Desktop\ip.txt -p 80,8080,443,9090</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/image_2021-10-10_14-38-36.png" alt="image_2021-10-10_14-38-36"></p>
 <p>程序没什么结构性，不过能跑起来、能用的就是好程序，欢迎师傅们使用。</p>
 <h2 id="⭐项目地址"><a href="#⭐项目地址" class="headerlink" title="⭐项目地址"></a>⭐项目地址</h2><p><strong>Github：<a target="_blank" rel="noopener" href="https://github.com/Sma11New/webEye">https://github.com/Sma11New/webEye</a></strong></p>
