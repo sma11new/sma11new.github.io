@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【密码学】基于背包问题的公钥加密算法之Python实现 | Sma11New</title><meta name="author" content="Sma11New"><meta name="copyright" content="Sma11New"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简述 公钥密码  公钥密码又称非对称密码，所谓非对称密码即加解密使用的不是同一个密钥。 在公钥密码体系中，使用每个人拥有两种密钥，公钥和私钥，公钥是公开的，用来加密，私钥是私自保存的，用于解密。如：只有用自己的私钥才能解开自己公钥加密的信息，而且通过公钥钥是不能推出私钥的。 公钥密码将辅助信息（陷门"><link rel="shortcut icon" href="/img/XiaoXin.png"><link rel="canonical" href="https://blog.sma11new.com/post/20191181017"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【密码学】基于背包问题的公钥加密算法之Python实现',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2019-11-08 10:17:02'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/XiaoXin.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">30</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041711692.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sma11New</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【密码学】基于背包问题的公钥加密算法之Python实现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-11-08T02:17:02.000Z" title="发表于 2019-11-08 10:17:02">2019-11-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-11-08T02:17:02.000Z" title="更新于 2019-11-08 10:17:02">2019-11-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/">密码学</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【密码学】基于背包问题的公钥加密算法之Python实现"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><ol>
+<li><strong>公钥密码</strong></li>
+</ol>
+<p>公钥密码又称非对称密码，所谓非对称密码即加解密使用的不是同一个密钥。</p>
+<p>在公钥密码体系中，使用每个人拥有两种密钥，公钥和私钥，公钥是公开的，用来加密，私钥是私自保存的，用于解密。如：<br><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041710711.png" alt="在这里插入图片描述"><br>只有用自己的私钥才能解开自己公钥加密的信息，而且通过公钥钥是不能推出私钥的。</p>
+<p>公钥密码将辅助信息（陷门信息）作为私钥，这类密码的安全强度取决于它所依据的问题的计算复杂度。</p>
+<p>常见的公钥密码有RSA公钥密码、ElGamal公钥密码、椭圆曲线密码。</p>
+<ol start="2">
+<li><strong>背包问题</strong></li>
+</ol>
+<p>背包问题：假设有一堆物品，体积各不相同，问能否从这堆物品中找出几个正好装满一个给定容量的背包？（假定物品之间不留空隙）<br><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041710756.png" alt="在这里插入图片描述"><br>记物品的体积分别为v1，V2，…，n，背包的容量为C，则背包问题可表示为：<code>b1v1＋b2v2＋…＋bnvn＝C</code>，其中，<code>bi（i＝1，2，…，n）</code>等于1或者0。</p>
+<p>bi &#x3D; 1表示第i个物品在背包中，bi＝0表示第i个物品不在背包中，称物品体积的序列<code>（v1，V2，…，vn）</code>为背包向量。</p>
+<p>目前没有一个高效的算法来解决这个问题，只是进行穷举式搜索，但当数据足够多时，达到2的1024或2048位时，穷举式搜索将不再现实，问题就很复杂了。</p>
+<ol start="3">
+<li><strong>超递增背包</strong></li>
+</ol>
+<p>并非所有的背包问题都没有有效算法，有一类特殊的背包问题是容易求解的，这就是超递增背包问题。</p>
+<p>设<code>V＝（v1，2，…，vn）</code>是一个背包向量，若V满足<strong>V中每一项都大于它前面所有项之和</strong>，则称V是一个超递增向量，或者称序列v1，V2，，n是一个超递增序列，以V为背包向量的背包问题被称做超递增背包问题。</p>
+<p>比如，序列<code>1，2，4，16，…… ，2^n</code>就是一个超递增序列。</p>
+<p>超递增背包问题的解可以通过以下方法找到：</p>
+<p>假设背包容量为C，从右到左依次检查超递增背包向量中的每一个元素Vi，如果<code>C &gt;= Vi</code>，则<code>C = C - Vi</code>，并将对应的bi置为1，否则跳过，继续检查下一元素，直至遍历完所有元素。如果此时C等于0，则该超递增背包问题有解，解为bi中的1对应的超递增背包向量中的元素，否则表示该问题无解。</p>
+<p>例如：<br><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041710911.png" alt="在这里插入图片描述"></p>
+<h2 id="加解密"><a href="#加解密" class="headerlink" title="加解密"></a>加解密</h2><p>背包算法具体如下：私有密钥设置为将一个超递增向量 V 转换为非超递增向量 U 的<br>参数t 、t的逆元和 k，公开密钥设置为非超递增向量 U，具体的加解密过程如下:</p>
+<ol>
+<li><strong>加密</strong></li>
+</ol>
+<p>首先将二进制明文消息划分成长度与非超递增向量U长度相等的明文分组b1 b2 …… bn；</p>
+<p>然后计算明文分组向量 B &#x3D;（b1，b2，……，bn）与非超递增向量 U＝ （u1，u2，……，un）的内积 <code>B * U = b1u1 +  b2u2＋ ……＋bnun</code>，所得结果为密文。</p>
+<ol start="2">
+<li><strong>解密</strong></li>
+</ol>
+<p>先还原出超递增背包向量<code>V = t的逆元 * U mod k＝t * t的逆元 * V mod k</code>；</p>
+<p>再将密文 B * U 模 k 乘以 t逆元 的结果作为超递增背包问题的背包容量，求解超递增背包问题，得到消息明文。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> my_modules <span class="keyword">import</span> modules</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init</span>(<span class="params">length, interval</span>):</span></span><br><span class="line">    listV = []  <span class="comment"># 超递增向量</span></span><br><span class="line">    listV_b = []  <span class="comment"># 每个元素对应的乘数</span></span><br><span class="line">    bagCapacity = <span class="number">1000</span>  <span class="comment"># 背包容积</span></span><br><span class="line">    <span class="comment"># 初始化超递增向量与listV_b</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(length):</span><br><span class="line">        listV.append(<span class="built_in">sum</span>(listV) + random.randrange(<span class="number">1</span>, interval))</span><br><span class="line">        listV_b.append(<span class="number">0</span>)</span><br><span class="line">    <span class="comment"># 求超递增背包的解</span></span><br><span class="line">    bagCapacityTmp = bagCapacity</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(listV)-<span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> bagCapacityTmp &gt;= listV[i]:</span><br><span class="line">            bagCapacityTmp -= listV[i]</span><br><span class="line">            listV_b[i] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> listV</span><br><span class="line"></span><br><span class="line"><span class="comment"># 产生私钥：k、t、t的逆元</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">creatPKey</span>(<span class="params">listV</span>):</span></span><br><span class="line">    <span class="comment"># listV = init()</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        k = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;输入私钥k(大于%d)：&quot;</span> % (<span class="built_in">sum</span>(listV))))</span><br><span class="line">        <span class="keyword">if</span> k &lt;= <span class="built_in">sum</span>(listV):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            t = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;输入私钥t(与k互素)：&quot;</span>))</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> modules.judgeCoPrime(k, t):</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    inverse_t = modules.getInverse(t, k)</span><br><span class="line">    <span class="keyword">return</span> k, t, inverse_t</span><br><span class="line"></span><br><span class="line"><span class="comment"># 产生公钥：</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">creatSKey</span>(<span class="params">listV, t, k</span>):</span></span><br><span class="line">    sKeyList = [] <span class="comment"># 公钥序列</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> listV:</span><br><span class="line">        sKeyList.append(i * t % k)</span><br><span class="line">    <span class="keyword">return</span> sKeyList</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span>(<span class="params">massage, sKeyList</span>):</span></span><br><span class="line">    massageList = []    <span class="comment"># 明文分组后的列表</span></span><br><span class="line">    ciphertextList = [] <span class="comment"># 存储密文的列表</span></span><br><span class="line">    <span class="comment"># 扩充明文消息串</span></span><br><span class="line">    <span class="keyword">while</span> <span class="built_in">len</span>(massage) % <span class="built_in">len</span>(sKeyList) != <span class="number">0</span>:</span><br><span class="line">        massage = <span class="string">&quot;0&quot;</span> + massage</span><br><span class="line">    <span class="comment"># 对明文进行分组</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">int</span>(<span class="built_in">len</span>(massage) / <span class="built_in">len</span>(sKeyList))):</span><br><span class="line">        start = (i * <span class="built_in">len</span>(sKeyList))</span><br><span class="line">        end = ((i + <span class="number">1</span>) * <span class="built_in">len</span>(sKeyList))</span><br><span class="line">        massageList.append(massage[start : end])</span><br><span class="line">    <span class="comment"># 采用内积和的方法加密</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> massageList:</span><br><span class="line">        <span class="comment"># 此处使用lambda时，要注意类型转换</span></span><br><span class="line">        multiplyList = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> x, y: <span class="built_in">int</span>(x) * <span class="built_in">int</span>(y), <span class="built_in">list</span>(i), sKeyList))</span><br><span class="line">        ciphertextList.append(<span class="built_in">sum</span>(multiplyList))</span><br><span class="line">    <span class="keyword">return</span> ciphertextList</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span>(<span class="params">massage, sKeyList, k, inverse_t</span>):</span></span><br><span class="line">    pliantextList = [] <span class="comment"># 存储明文的列表</span></span><br><span class="line">    reductListV = []  <span class="comment"># 还原后的初始超递增向量</span></span><br><span class="line">    <span class="comment"># 还原超递增向量</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> sKeyList:</span><br><span class="line">        reductListV.append(<span class="built_in">int</span>(i) * inverse_t % k)</span><br><span class="line">    <span class="comment"># 计算出用于解密的临时背包容积</span></span><br><span class="line">    bagCapacityList = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> massage:</span><br><span class="line">        bagCapacityList.append(<span class="built_in">int</span>(i) * inverse_t % k)</span><br><span class="line">    <span class="comment"># 利用求出的临时背包容积求解背包问题，结果即明文</span></span><br><span class="line">    <span class="keyword">for</span> bagCap <span class="keyword">in</span> bagCapacityList:</span><br><span class="line">        pliantextTmp = []   <span class="comment"># 存储密文列表中每个密文解密后的序列</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(reductListV)):</span><br><span class="line">            pliantextTmp.append(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(reductListV) - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> bagCap &gt;= reductListV[i]:</span><br><span class="line">                bagCap -= reductListV[i]</span><br><span class="line">                pliantextTmp[i] = <span class="number">1</span></span><br><span class="line">        pliantextList += pliantextTmp</span><br><span class="line">    <span class="comment"># 去除扩充的0并转换为字符串</span></span><br><span class="line">    start, end = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(pliantextList)):</span><br><span class="line">        <span class="keyword">if</span> pliantextList[i] != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        end = i + <span class="number">1</span></span><br><span class="line">    <span class="keyword">del</span> pliantextList[start : end]</span><br><span class="line">    pliantextList = <span class="built_in">map</span>(<span class="built_in">str</span>, pliantextList)</span><br><span class="line">    pliantext = <span class="string">&quot;&quot;</span>.join(pliantextList)</span><br><span class="line">    <span class="keyword">return</span> pliantext</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># listV = [1, 3, 7, 13, 26, 65, 119, 267]</span></span><br><span class="line">    <span class="comment"># length = int(input(&quot;输入超递增向量元素个数：&quot;))</span></span><br><span class="line">    <span class="comment"># interval = int(input(&quot;输入随机增量：&quot;))</span></span><br><span class="line">    length, interval = <span class="number">8</span>, <span class="number">4</span></span><br><span class="line">    listV = init(length, interval)</span><br><span class="line">    print(<span class="string">&quot;初始向量：&quot;</span>, listV)</span><br><span class="line">    k, t, inverse_t = creatPKey(listV)</span><br><span class="line">    print(<span class="string">&quot;\n私钥验证成功，分别为  &lt;k：%d&gt;， &lt;t：%d&gt;，&lt;t逆元：%d&gt;&quot;</span> %(k, t, inverse_t))</span><br><span class="line">    sKeyList = creatSKey(listV, t, k)</span><br><span class="line">    print(<span class="string">&quot;公钥向量为：&quot;</span>, sKeyList, <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        choice = <span class="built_in">input</span>(<span class="string">&quot;1、加密    2、解密\n请选择：&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> choice == <span class="string">&quot;1&quot;</span>:</span><br><span class="line">            massage = <span class="built_in">input</span>(<span class="string">&quot;输入明文（01序列）：&quot;</span>)</span><br><span class="line">            ciphertextList = encrypt(massage, sKeyList)</span><br><span class="line">            print(<span class="string">&quot;加密结果：&quot;</span>, ciphertextList)</span><br><span class="line">        <span class="keyword">elif</span> choice == <span class="string">&quot;2&quot;</span>:</span><br><span class="line">            ciphertextList = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">list</span>(<span class="built_in">input</span>(<span class="string">&quot;输入密文：&quot;</span>).split(<span class="string">&quot;,&quot;</span>))))</span><br><span class="line">            sKeyList = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">list</span>(<span class="built_in">input</span>(<span class="string">&quot;输入公钥向量：&quot;</span>).split(<span class="string">&quot;,&quot;</span>))))</span><br><span class="line">            k = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;输入密钥k：&quot;</span>))</span><br><span class="line">            inverse_t = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;输入密钥t逆：&quot;</span>))</span><br><span class="line">            pliantext = decrypt(ciphertextList, sKeyList, k, inverse_t)</span><br><span class="line">            print(<span class="string">&quot;解密结果：&quot;</span>, pliantext)</span><br></pre></td></tr></table></figure>
+<p>其中，<code>from my_modules import modules</code> 为导入我自己的一个模块，因为使用频率高，内容为在写密码学代码中常用的判断互质和求逆元。moduls文件内容如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 判断互质</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">judgeCoPrime</span>(<span class="params">a, b</span>):</span></span><br><span class="line">    <span class="comment"># 求最大公因数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxCommonFactor</span>(<span class="params">m, n</span>):</span></span><br><span class="line">        result = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span>  m % n &gt; <span class="number">0</span>:</span><br><span class="line">            result = m % n</span><br><span class="line">            m = n</span><br><span class="line">            n = result</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">if</span> maxCommonFactor(a, b) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 求逆元</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getInverse</span>(<span class="params">a, b</span>):</span></span><br><span class="line">    <span class="comment"># 扩展的欧几里得</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">extGcd</span>(<span class="params">a_, b_, arr</span>):</span></span><br><span class="line">        <span class="keyword">if</span> b_ == <span class="number">0</span>:</span><br><span class="line">            arr[<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">            arr[<span class="number">1</span>] = <span class="number">0</span></span><br><span class="line">            <span class="keyword">return</span> a_</span><br><span class="line">        g = extGcd(b_, a_ % b_, arr)</span><br><span class="line">        t = arr[<span class="number">0</span>]</span><br><span class="line">        arr[<span class="number">0</span>] = arr[<span class="number">1</span>]</span><br><span class="line">        arr[<span class="number">1</span>] = t - <span class="built_in">int</span>(a_ / b_) * arr[<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">return</span> g</span><br><span class="line">    <span class="comment"># 求a模b的乘法逆x</span></span><br><span class="line">    arr = [<span class="number">0</span>,<span class="number">1</span>,]</span><br><span class="line">    gcd = extGcd(a, b, arr)</span><br><span class="line">    <span class="keyword">if</span> gcd == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> (arr[<span class="number">0</span>] % b + b) % b</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="代码细节"><a href="#代码细节" class="headerlink" title="代码细节"></a>代码细节</h2><ol>
+<li><strong>总述</strong></li>
+</ol>
+<p>整体思路分为5个步骤，分别是初始化超递增向量、创建私钥、利用初始化和私钥产生公钥、利用公钥对明文加密、利用公钥私钥和密文进行解密。</p>
+<p>其中较复杂的是在加密和解密两个环节。</p>
+<p>由于python中的众多列表、字符串方法，如<code>map、lambda、join，</code>以及类似于通过<code>list[a:b]</code>来访问<code>list的[a, b)</code>下标元素，得以让程序看起来简洁。如若是C语言，则代码量看起来会稍多一些。</p>
+<ol start="2">
+<li><strong>massageList.append(massage[start : end])</strong></li>
+</ol>
+<p>出现在加密部分中的明文分组操作中，<code>massage</code>为输入的明文字符串。</p>
+<p>作用是将明文<code>massage</code>中的<code>start</code>号元素到<code>end</code>号元素作为一个整体，添加到明文分组列表<code>massageList</code>中；目的是根据超递增背包向量的长度，来对明文进行分组。</p>
+<p>该访问方法可访问字符串和列表。</p>
+<ol start="3">
+<li><strong>del pliantextList[start : end]</strong></li>
+</ol>
+<p>出现在解密部分中的去除扩充的0操作中，<code>pliantextList</code>为解密出来的明文列表。</p>
+<p>作用：删除<code>pliantextList</code>中下标在区间<code>[start, end)</code>内的元素</p>
+<ol start="4">
+<li><strong>for i in range(len(listV)-1, -1, -1)</strong></li>
+</ol>
+<p>出现在求超递增背包解的步骤中，<code>listV</code>为超递增向量。</p>
+<p>作用：从后往前访问列表元素（以下标形式）。</p>
+<p>除此，逆向访问列表元素的方法还有<code>list[::-1]</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">print(list1[::-<span class="number">1</span>])</span><br><span class="line"><span class="comment"># [5, 4, 3, 2, 1]</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><strong>k, t, inverse_t &#x3D; creatPKey(listV)</strong></li>
+</ol>
+<p>出现在调用创建私钥函数，接收返回值部分。</p>
+<p><code>creatPKey()</code>函数的返回值为：<code>return k, t, inverse_t</code>，接收时只需要连续写相应个数的变量来接收即可。</p>
+<p>这是与C语言等其他语言不同的地方：<strong>python函数可以有多个返回值</strong>。</p>
+<ol start="6">
+<li><strong>list(map(lambda x, y: int(x) * int(y), list(i), sKeyList))</strong></li>
+</ol>
+<p>出现在加密部分的内积操作中，其中<code>list(i) 和 sKeyList</code>皆为列表。</p>
+<p>作用：通过<code>map()</code>将两个列表的对应位元素逐个应用在<code>lambda</code>定义的函数上，该函数作用是“传入两个参数，返回这两个数整形类型的乘积”，再将所有结果组成的数据块转换为列表格式。</p>
+<h2 id="加密测试"><a href="#加密测试" class="headerlink" title="加密测试"></a>加密测试</h2><ol>
+<li><strong>输入length（向量元素个数）和interval（随机增量最大值）</strong></li>
+</ol>
+<p>输入 length：8<br>输入 interval：4</p>
+<p>产生一个随机的超递增向量：[3, 6, 11, 22, 45, 89, 179, 356]<br><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041711945.png" alt="在这里插入图片描述"></p>
+<ol start="2">
+<li><strong>输入 k（大于向量的所有元素和） 和 t（与k互质）</strong></li>
+</ol>
+<p>输入 k：747<br>输入 t：367</p>
+<p>此时私钥和公钥都产生：</p>
+<p><strong>私钥</strong>：  <strong>&lt;k：747&gt;， &lt;t：367&gt;，&lt;t逆元：517&gt;</strong></p>
+<p><strong>公钥</strong>： <strong>[354, 708, 302, 604, 81, 542, 704, 674]</strong><br><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041711850.png" alt="在这里插入图片描述"></p>
+<ol start="3">
+<li><strong>加密</strong></li>
+</ol>
+<p>输入明文：101100111000</p>
+<p>加密结果：1459, 987</p>
+<p>因为位数大于向量长度，因此进行了分组，产生了两个密文数字。<br><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041711808.png" alt="在这里插入图片描述"></p>
+<ol start="4">
+<li><strong>解密</strong></li>
+</ol>
+<p>输入密文：1459, 987<br>输入公钥向量：354, 708, 302, 604, 81, 542, 704, 674<br>输入密钥k：747<br>输入密钥t逆：517</p>
+<p>解密结果： 101100111000<br><img src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041711692.png" alt="在这里插入图片描述"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://blog.sma11new.com">Sma11New</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blog.sma11new.com/post/20191181017.html">https://blog.sma11new.com/post/20191181017.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.sma11new.com" target="_blank">Sma11New</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">背包问题</a></div><div class="post_share"><div class="social-share" data-image="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041711692.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/201911261008.html"><img class="prev-cover" src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041710161.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【密码学】仿射密码之Python实现</div></div></a></div><div class="next-post pull-right"><a href="/post/20191151848.html"><img class="next-cover" src="https://hexo-1302945528.cos.ap-chengdu.myqcloud.com/posts/image/202212041715379.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【密码学】维吉尼亚密码之Python实现</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">简述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E8%A7%A3%E5%AF%86"><span class="toc-number">2.</span> <span class="toc-text">加解密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%BB%86%E8%8A%82"><span class="toc-number">4.</span> <span class="toc-text">代码细节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%8B%E8%AF%95"><span class="toc-number">5.</span> <span class="toc-text">加密测试</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Sma11New</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
